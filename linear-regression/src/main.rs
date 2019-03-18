@@ -11,10 +11,10 @@ use std::ffi::OsString;
 use std::fs::File;
 use std::process;
 
-// use rusty_machine::learning::lin_reg::LinRegressor;
-// use rusty_machine::learning::SupModel;
-// use rusty_machine::linalg::Matrix;
-// use rusty_machine::linalg::Vector;
+use rusty_machine::learning::lin_reg::LinRegressor;
+use rusty_machine::learning::SupModel;
+use rusty_machine::linalg::Matrix;
+use rusty_machine::linalg::Vector;
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
@@ -32,15 +32,19 @@ fn run() -> Result<(), Box<Error>> {
     // TODO: 
     // not quite sure how to get the count of rdr.deserialize (lazy iterator?)
     // use vectors to accumulate results for now
-    let mut inputs: Vec<f64> = Vec::new();
-    let mut targets: Vec<f64> = Vec::new();
+    let mut inputs_vec: Vec<f64> = Vec::new();
+    let mut targets_vec: Vec<f64> = Vec::new();
 
     for result in rdr.deserialize() {
         let record: Record = result?;
-        inputs.push(record.bmi);
-        targets.push(record.life_expectancy);
+        inputs_vec.push(record.bmi);
+        targets_vec.push(record.life_expectancy);
     }
-    
+
+    let inputs = Matrix::new(inputs_vec.len(), 1, inputs_vec);
+    let targets = Vector::new(targets_vec);
+
+    train_model(inputs, targets);
     Ok(())
 }
 
@@ -51,10 +55,9 @@ fn get_first_arg() -> Result<OsString, Box<Error>> {
     }
 }
 
-/*
-fn train_model() {
-    let inputs = Matrix::new(4,1,vec![1.0,3.0,5.0,7.0]);
-    let targets = Vector::new(vec![1.,5.,9.,13.]);
+fn train_model(inputs: Matrix<f64>, targets: Vector<f64>) {
+    // let inputs = Matrix::new(4,1,vec![1.0,3.0,5.0,7.0]);
+    // let targets = Vector::new(vec![1.,5.,9.,13.]);
 
     let mut lin_mod = LinRegressor::default();
 
@@ -62,7 +65,7 @@ fn train_model() {
     lin_mod.train(&inputs, &targets).unwrap();
 
     // Now we'll predict a new point
-    let new_point = Matrix::new(1,1,vec![10.]);
+    let new_point = Matrix::new(1,1,vec![21.07931]);
     let output = lin_mod.predict(&new_point).unwrap();
 
     println!("prediction {} ", output[0]);
@@ -70,7 +73,6 @@ fn train_model() {
     // Hopefully we classified our new point correctly!
     assert!(output[0] > 17f64, "Our regressor isn't very good!");
 }
-*/
 
 fn main() {
     if let Err(err) = run() {
