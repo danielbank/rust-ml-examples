@@ -1,9 +1,8 @@
 extern crate csv;
-extern crate rusty_machine;
 extern crate serde;
-// This lets us write `#[derive(Deserialize)]`.
 #[macro_use]
 extern crate serde_derive;
+extern crate rusty_machine;
 
 use std::env;
 use std::error::Error;
@@ -29,9 +28,6 @@ fn run() -> Result<(), Box<Error>> {
     let file = File::open(file_path)?;
     let mut rdr = csv::Reader::from_reader(file);
 
-    // TODO: 
-    // not quite sure how to get the count of rdr.deserialize (lazy iterator?)
-    // use vectors to accumulate results for now
     let mut inputs_vec: Vec<f64> = Vec::new();
     let mut targets_vec: Vec<f64> = Vec::new();
 
@@ -44,8 +40,19 @@ fn run() -> Result<(), Box<Error>> {
     let inputs = Matrix::new(inputs_vec.len(), 1, inputs_vec);
     let targets = Vector::new(targets_vec);
 
-    train_model(inputs, targets);
+    let model = train_model(inputs, targets);
+
+    let new_point = Matrix::new(1,1,vec![21.07931]);
+    let output = model.predict(&new_point).unwrap();
+    println!("Life Expectancy Prediction for {}: {} ", new_point[[0,0]], output[0]);
+
     Ok(())
+}
+
+fn train_model(inputs: Matrix<f64>, targets: Vector<f64>) -> LinRegressor {
+    let mut lin_mod = LinRegressor::default();
+    lin_mod.train(&inputs, &targets).unwrap();
+    lin_mod
 }
 
 fn get_first_arg() -> Result<OsString, Box<Error>> {
@@ -53,25 +60,6 @@ fn get_first_arg() -> Result<OsString, Box<Error>> {
         None => Err(From::from("expected 1 argument, but got none")),
         Some(file_path) => Ok(file_path),
     }
-}
-
-fn train_model(inputs: Matrix<f64>, targets: Vector<f64>) {
-    // let inputs = Matrix::new(4,1,vec![1.0,3.0,5.0,7.0]);
-    // let targets = Vector::new(vec![1.,5.,9.,13.]);
-
-    let mut lin_mod = LinRegressor::default();
-
-    // Train the model
-    lin_mod.train(&inputs, &targets).unwrap();
-
-    // Now we'll predict a new point
-    let new_point = Matrix::new(1,1,vec![21.07931]);
-    let output = lin_mod.predict(&new_point).unwrap();
-
-    println!("prediction {} ", output[0]);
-
-    // Hopefully we classified our new point correctly!
-    assert!(output[0] > 17f64, "Our regressor isn't very good!");
 }
 
 fn main() {
