@@ -1,0 +1,11 @@
+[package]
+name = "classification"
+version = "0.1.0"
+authors = ["Daniel Bank <daniel.p.bank@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rusty-machine = "0.5.4"
+csv = "1"
+serde = "1"
+serde_derive = "1"
