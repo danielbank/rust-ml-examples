@@ -2,14 +2,30 @@
 
 Rust ML Examples
 
-## Talking Points
+# Talking Points
 
--   How does linear regression work (explanation of why input is matrix and targets is a vector)
+## Rusty Machine
 
--   Python Example just for comparison
+-   [Are We Learning Yet](http://www.arewelearningyet.com/)
+-   [Rusty Machine Model traits](http://athemathmo.github.io/2016/07/28/rusty-machine-talk.html#/10)
+-   [Rusty Machine vs Rust Sim](https://github.com/AtheMathmo/rusty-machine/issues/199)
 
--   Rusty Machine Slides explaining Model traits
+## Linear Regression
 
--   Finding the length of the deserialize borrowed iterator (finally got `count()` to work and it was 0, lazy iterator?)
+-   [Linear Regression](https://newonlinecourses.science.psu.edu/stat501/node/382/)
 
--   Rusty Machine Linear Algebra vs Rust Sim (And the future???)
+-   Python and Rust Code
+
+# Crates
+
+-   [csv](https://crates.io/crates/csv)
+-   [rusty-machine](https://crates.io/crates/rusty-machine)
+-   [serde](https://crates.io/crates/serde)
+-   [serde_derive](https://crates.io/crates/serde_derive)
+
+# Links
+
+-   [Are We Learning Yet](http://www.arewelearningyet.com/)
+-   [Rusty Machine Slides](http://athemathmo.github.io/2016/07/28/rusty-machine-talk.html)
+-   [Rusty Machine](https://github.com/AtheMathmo/rusty-machine/)
+-   [Linear Regression](https://newonlinecourses.science.psu.edu/stat501/node/382/)
