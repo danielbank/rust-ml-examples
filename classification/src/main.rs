@@ -54,9 +54,13 @@ fn run() -> Result<(), Box<Error>> {
 
     let model = train_model(inputs, targets);
 
-    let new_point = Matrix::new(1, 2, vec![0.0, 0.0]);
-    let output = model.predict(&new_point).unwrap();
-    println!("Prediction for {}: {} ", new_point[[0,0]], output[0]);
+    for x in -20..20 {
+        let mut x = x as f64;
+        x = x / 10.0;
+        let new_point = Matrix::new(1, 2, vec![x, x]);
+        let output = model.predict(&new_point).unwrap();
+        println!("Prediction for {}: {} ", new_point, output[0]);
+    }
 
     Ok(())
 }
