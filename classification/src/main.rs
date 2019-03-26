@@ -67,8 +67,8 @@ fn run() -> Result<(), Box<Error>> {
 
 fn train_model(inputs: Matrix<f64>, targets: Vector<f64>) -> SVM<Polynomial> {
     // Constructs a new polynomial with alpha = 1, c = 0, d = 2.
-    let ker = kernel::Polynomial::new(1.0, 0.0, 2.0);
-    let mut svm_mod = SVM::new(ker,0.3);
+    let ker = kernel::Polynomial::new(1e-8, 0.0, 2.0);
+    let mut svm_mod = SVM::new(ker, 0.3);
     svm_mod.train(&inputs, &targets).unwrap();
     svm_mod
 }
