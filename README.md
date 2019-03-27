@@ -1,5 +1,7 @@
 # Rust ML Examples
 
+-   [Rust ML Examples Repo](https://github.com/danielbank/rust-ml-examples)
+
 ## Rusty Machine
 
 -   [Are We Learning Yet](http://www.arewelearningyet.com/)
